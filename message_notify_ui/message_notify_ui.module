@@ -160,9 +160,9 @@ function message_notify_action_info() {
  *  Each message will be sent to the message owner e-mail address.
  *
  * @param $message
- *  the message object.
+ *   The message object.
  * @param $context
- *  the context data array.
+ *   The context data array.
  */
 function message_notify_send_email_vbo(&$message, $context) {
   message_notify_send_message($message);

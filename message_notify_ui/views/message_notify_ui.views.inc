@@ -22,40 +22,22 @@ function message_notify_ui_views_data() {
  * Implements hook_views_default_views_alter().
  */
 function message_notify_ui_views_default_views_alter(&$views) {
+
   if (!in_array('message', array_keys($views))) {
     return;
   }
 
   $handler =& $views['message']->display['default']->handler;
 
-  $handler->display->display_options['style_options']['columns'] += array(
-    'notify' => 'view',
-  );
-
-  $handler->display->display_options['style_options']['info'] += array(
-    'notify' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
-
-  /* Field: Message: Notify message */
-  $handler->display->display_options['fields']['notify']['id'] = 'notify';
-  $handler->display->display_options['fields']['notify']['table'] = 'message';
-  $handler->display->display_options['fields']['notify']['field'] = 'notify';
-  $handler->display->display_options['fields']['notify']['label'] = 'Notify message';
-  $handler->display->display_options['fields']['notify']['element_label_colon'] = FALSE;
-
   /* Field: Bulk operations: Message */
-  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'message';
-  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+  $field['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $field['views_bulk_operations']['table'] = 'message';
+  $field['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $field['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $field['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $field['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $field['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $field['views_bulk_operations']['vbo_operations'] = array(
     'action::message_notify_send_email_vbo' => array(
       'selected' => 1,
       'postpone_processing' => 0,
@@ -64,4 +46,26 @@ function message_notify_ui_views_default_views_alter(&$views) {
       'label' => '',
     ),
   );
+
+  /* Field: Message: View message */
+  $field['view']['id'] = 'view';
+  $field['view']['table'] = 'message';
+  $field['view']['field'] = 'view';
+  $field['view']['label'] = '';
+  $field['view']['exclude'] = TRUE;
+  $field['view']['element_label_colon'] = FALSE;
+
+  /* Field: Message: Notify message */
+  $field['notify']['id'] = 'notify';
+  $field['notify']['table'] = 'message';
+  $field['notify']['field'] = 'notify';
+  $field['notify']['label'] = '';
+  $field['notify']['exclude'] = TRUE;
+  $field['notify']['element_label_colon'] = FALSE;
+
+  $handler->display->display_options['fields'] = $field + $handler->display->display_options['fields'];
+
+
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['alter']['text'] .= '[notify] ';
 }
