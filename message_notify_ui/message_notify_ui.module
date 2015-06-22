@@ -127,3 +127,33 @@ function message_notify_ui_send_notification_submit($form, &$form_state) {
 
   $form_state['redirect'] = 'message/' . $message->mid;
 }
+
+/**
+ * Implements hook_action_info().
+ */
+function message_notify_action_info() {
+  return array(
+    'message_notify_send_email_vbo' => array(
+      'type' => 'message',
+      'label' => t('Send as e-mail to the owner of the message'),
+      'behavior' => array('changes_property'),
+      'configurable' => FALSE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+/**
+ * Callback function to be executed when using the views bulk operation action
+ * "Send as e-mail to the owner of the message".
+ *  Each message will be sent to the message owner e-mail address.
+ *
+ * @param $message
+ *  the message object.
+ * @param $context
+ *  the context data array.
+ */
+function message_notify_send_email_vbo(&$message, $context) {
+  message_notify_send_message($message);
+}
