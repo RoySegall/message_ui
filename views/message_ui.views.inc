@@ -73,5 +73,14 @@ function message_ui_views_default_views_alter(&$views) {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Operation';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] .= '[view] [edit] [delete] ';
+
+  $text = '[view] [edit] [delete] ';
+  // In case this value was set previously by another "views_default_views_alter".
+  if (isset($handler->display->display_options['fields']['nothing']['alter']['text'])) {
+    $handler->display->display_options['fields']['nothing']['alter']['text'] .= $text;
+  }
+  // In case this value is been set for the first time.
+  else {
+    $handler->display->display_options['fields']['nothing']['alter']['text'] = $text;
+  }
 }
