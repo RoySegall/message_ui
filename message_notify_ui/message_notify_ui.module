@@ -155,9 +155,9 @@ function message_notify_action_info() {
 }
 
 /**
- * Callback function to be executed when using the views bulk operation action
- * "Send as e-mail to the owner of the message".
- *  Each message will be sent to the message owner e-mail address.
+ * VBO callback function.
+ *
+ * Sending email to each selected message.
  *
  * @param $message
  *   The message object.

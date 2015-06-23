@@ -71,7 +71,6 @@ function message_notify_ui_views_default_views_alter(&$views) {
   if (isset($handler->display->display_options['fields']['nothing']['alter']['text'])) {
     $handler->display->display_options['fields']['nothing']['alter']['text'] .= $text;
   }
-  // In case this value is been set for the first time.
   else {
     $handler->display->display_options['fields']['nothing']['alter']['text'] = $text;
   }
