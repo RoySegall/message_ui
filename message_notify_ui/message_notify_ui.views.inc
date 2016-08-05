@@ -7,15 +7,15 @@
 /**
  * Implements hook_views_data().
  */
-function message_notify_ui_views_data()
-{
+function message_notify_ui_views_data() {
   $data['message']['notify'] = array(
     'title' => t('Notify message'),
     'help' => t('Send the message using a notifier.'),
     'field' => array(
       'handler' => 'message_notify_ui_notify_button',
     ),
-    );
+  );
+
   return $data;
 }
 
@@ -25,12 +25,11 @@ function message_notify_ui_views_data()
  * @todo: perhaps can be swapped for hook_views_data_alter(array &$data)?
  * @todo: see https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/function/hook_views_data_alter/8
  */
-function message_notify_ui_views_default_views_alter(&$views)
-{
+function message_notify_ui_views_default_views_alter(&$views) {
 
   if (!in_array('message', array_keys($views))) {
     return;
-    }
+  }
 
   $handler =& $views['message']->display['default']->handler;
 
@@ -50,7 +49,7 @@ function message_notify_ui_views_default_views_alter(&$views)
       'override_label' => 0,
       'label' => '',
     ),
-    );
+  );
 
   /* Field: Message: View message */
   $field['view']['id'] = 'view';
@@ -72,11 +71,12 @@ function message_notify_ui_views_default_views_alter(&$views)
 
   /* Field: Global: Custom text */
   $text = '[notify] ';
-  // In case this value was set previously by another "views_default_views_alter".
+  // In case this value was set previously by another
+  // "views_default_views_alter".
   if (isset($handler->display->display_options['fields']['nothing']['alter']['text'])) {
     $handler->display->display_options['fields']['nothing']['alter']['text'] .= $text;
-    }
+  }
   else {
     $handler->display->display_options['fields']['nothing']['alter']['text'] = $text;
-    }
+  }
 }

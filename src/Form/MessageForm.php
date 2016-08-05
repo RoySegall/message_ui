@@ -4,11 +4,13 @@
  * @file
  * Contains \Drupal\message_ui\Form\MessageForm.
  */
+
 namespace Drupal\message_ui\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\message\Entity\Message;
 use Drupal\user\Entity\User;
@@ -62,7 +64,7 @@ class MessageForm extends ContentEntityForm {
         'library' => array('message_ui/message_ui.message'),
         'drupalSettings' => array(
           'message_ui' => array(
-            'anonymous' => \Drupal::config('message_ui.settings')->get('anonymous')
+            'anonymous' => \Drupal::config('message_ui.settings')->get('anonymous'),
           ),
         ),
       ),
@@ -82,12 +84,12 @@ class MessageForm extends ContentEntityForm {
     $access = \Drupal::currentUser()->hasPermission('update tokens') || \Drupal::currentUser()->hasPermission('bypass message access control');
     if (!empty($args) && ($access)) {
       $form['tokens'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Tokens and arguments'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#group' => 'advanced',
-      '#weight' => 110,
+        '#type' => 'fieldset',
+        '#title' => t('Tokens and arguments'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#group' => 'advanced',
+        '#weight' => 110,
       );
 
       // Give the user an option to update the har coded tokens.
@@ -132,7 +134,6 @@ class MessageForm extends ContentEntityForm {
     // @todo : add similar to node/from library, adding css for
     // 'message-form-owner' class.
     // $form['#attached']['library'][] = 'node/form';
-
     return $form;
   }
 
@@ -148,37 +149,37 @@ class MessageForm extends ContentEntityForm {
     $element['save'] = $element['submit'];
     if ($message->isNew()) {
       $element['save']['#value'] = t('Create');
-        }
+    }
     else {
       $element['save']['#value'] = t('Update');
-        }
+    }
     $element['save']['#weight'] = 0;
 
     $mid = $message->id();
     $url = is_object($message) && !empty($mid) ? Url::fromRoute('entity.message.canonical', ['message' => $mid]) : Url::fromRoute('message.overview_templates');
-    $link = \Drupal::l(t('Cancel'), $url);
+    $link = Link::fromTextAndUrl(t('Cancel'), $url);
 
     // Add a cancel link to the message form actions.
     $element['cancel'] = array(
-        '#type' => 'markup',
-        '#markup' => $link
-        );
+      '#type' => 'markup',
+      '#markup' => $link,
+    );
 
     // Remove the default "Save" button.
     $element['submit']['#access'] = FALSE;
 
     return $element;
-    }
+  }
 
   /**
    * {@inheritdoc}
    *
    * Updates the message object by processing the submitted values.
    */
-  public function submitForm(array &$form, FormStateInterface $form_state)
-    {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     // Build the node object from the submitted values.
     parent::submitForm($form, $form_state);
+
     /* @var $message Message */
     $message = $this->entity;
 
@@ -186,16 +187,16 @@ class MessageForm extends ContentEntityForm {
     $uid = $form_state->getValue('uid');
     if (is_array($uid) && !empty($uid[0]['target_id'])) {
       $message->setOwnerId($uid[0]['target_id']);
-        }
+    }
 
     // Set the timestamp to custom value or request time.
     $created = $form_state->getValue('date');
     if ($created) {
       $message->setCreatedTime(strtotime($created));
-        }
+    }
     else {
       $message->setCreatedTime(REQUEST_TIME);
-        }
+    }
 
     // Get the tokens to be replaced and prepare for replacing.
     $replace_tokens = $form_state->getValue('replace_tokens');
@@ -210,31 +211,25 @@ class MessageForm extends ContentEntityForm {
 
           if ($token_actions == 'update') {
             // Get the hard coded value of the message and him in the message.
-            $token_name = str_replace(
-                            array('@{', '}'), array(
-                            '[',
-                            ']'
-                            ), $token
-                        );
+            $token_name = str_replace(array('@{', '}'), array('[', ']'), $token);
             $token_service = \Drupal::token();
             $value = $token_service->replace($token_name, array('message' => $message));
-                    }
+          }
           else {
             // Hard coded value given from the user.
             $value = $form_state['values'][$token];
-                    }
+          }
 
           $args[$token] = $value;
-                }
-            }
         }
+      }
     }
+  }
 
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state)
-    {
+  public function save(array $form, FormStateInterface $form_state) {
     /* @var $message Message */
     $message = $this->entity;
     $insert = $message->isNew();
@@ -244,46 +239,44 @@ class MessageForm extends ContentEntityForm {
     // Set up message link and status message contexts.
     $message_link = $message->link($this->t('View'));
     $context = array(
-        '@type' => $message->getTemplate(),
-        '%title' => 'Message:' . $message->id(),
-        'link' => $message_link
-        );
+      '@type' => $message->getTemplate(),
+      '%title' => 'Message:' . $message->id(),
+      'link' => $message_link,
+    );
     $t_args = array(
-        '@type' => $message->getEntityType()->getLabel(),
-        '%title' => 'Message:' . $message->id()
-        );
+      '@type' => $message->getEntityType()->getLabel(),
+      '%title' => 'Message:' . $message->id(),
+    );
 
     // Display newly created or updated message depending on if new entity.
     if ($insert) {
       $this->logger('content')->notice('@type: added %title.', $context);
       drupal_set_message(t('@type %title has been created.', $t_args));
-        }
+    }
     else {
       $this->logger('content')->notice('@type: updated %title.', $context);
       drupal_set_message(t('@type %title has been updated.', $t_args));
-        }
+    }
 
     // Redirect to message view display if user has access.
     if ($message->id()) {
       $form_state->setValue('mid', $message->id());
       $form_state->set('mid', $message->id());
       if ($message->access('view')) {
-        $form_state->setRedirect(
-                    'entity.message.canonical',
-                    ['message' => $message->id()]
-                );
-            }
+        $form_state->setRedirect('entity.message.canonical', ['message' => $message->id()]);
+      }
       else {
         $form_state->setRedirect('<front>');
-            }
-      // @todo : for node they clear temp store here, but perhaps unused with message.
-        }
+      }
+      // @todo : for node they clear temp store here, but perhaps unused with
+      // message.
+    }
     else {
       // In the unlikely case something went wrong on save, the message will be
       // rebuilt and message form redisplayed.
       drupal_set_message(t('The message could not be saved.'), 'error');
       $form_state->setRebuild();
-        }
     }
+  }
 
 }

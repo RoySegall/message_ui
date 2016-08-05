@@ -18,8 +18,7 @@ use Drupal\message\Entity\Message;
  *
  * @ViewsField("notify_button")
  */
-class NotifyButton extends FieldPluginBase
-{
+class NotifyButton extends FieldPluginBase {
 
   /**
    * Stores the result of message_view_multiple for all rows to reuse it later.
@@ -31,20 +30,18 @@ class NotifyButton extends FieldPluginBase
   /**
    * {@inheritdoc}
    */
-  public function query()
-    {
-    }
+  public function query() {}
 
   /**
    * {@inheritdoc}
    */
-  public function render(ResultRow $values)
-    {
+  public function render(ResultRow $values) {
     $message = Message::load($values->_entity->id());
 
     if (\Drupal::currentUser()->hasPermission('send message notify')) {
       return l(t('Notify'), 'message/' . $message->id() . '/notify');
-        }
-    return NULL;
     }
+
+    return NULL;
+  }
 }

@@ -1,46 +1,49 @@
 <?php
+
 /**
  * @file
- * integration with the views module.
+ * Integration with the views module.
  */
 
 /**
  * Implements hook_views_data().
  */
-function message_ui_views_data()
-{
+function message_ui_views_data() {
   $data['message']['delete'] = array(
     'title' => t('Delete message'),
     'help' => t('Link to delete the message instance.'),
     'field' => array(
       'handler' => 'message_ui_delete_button',
     ),
-    );
+  );
+
   $data['message']['edit'] = array(
     'title' => t('Edit message'),
     'help' => t('Link to edit the message instance.'),
     'field' => array(
       'handler' => 'message_ui_edit_button',
     ),
-    );
+  );
+
   $data['message']['view'] = array(
     'title' => t('View message'),
     'help' => t('Link to view the message instance.'),
     'field' => array(
       'handler' => 'message_ui_view_button',
     ),
-    );
+  );
+
   return $data;
 }
 
 /**
  * Implements hook_views_default_views_alter().
  */
-function message_ui_views_default_views_alter(&$views)
-{
+function message_ui_views_default_views_alter(&$views) {
+
   if (!in_array('message', array_keys($views))) {
     return;
-    }
+  }
 
   $handler =& $views['message']->display['default']->handler;
 
@@ -77,11 +80,12 @@ function message_ui_views_default_views_alter(&$views)
   $handler->display->display_options['fields']['nothing']['label'] = 'Operation';
 
   $text = '[view] [edit] [delete] ';
-  // In case this value was set previously by another "views_default_views_alter".
+  // In case this value was set previously by another
+  // "views_default_views_alter".
   if (isset($handler->display->display_options['fields']['nothing']['alter']['text'])) {
     $handler->display->display_options['fields']['nothing']['alter']['text'] .= $text;
-    }
+  }
   else {
     $handler->display->display_options['fields']['nothing']['alter']['text'] = $text;
-    }
+  }
 }
