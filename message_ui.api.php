@@ -17,15 +17,15 @@ use Drupal\Core\Session\AccountInterface;
  * @param $message
  *  The message object.
  */
-function hook_message_ui_view_alter(&$build, Message $message) 
+function hook_message_ui_view_alter(&$build, Message $message)
 {
-    // Check the output of the message as you wish.
+  // Check the output of the message as you wish.
 }
 
 /**
  * Implements hook_message_message_ui_access_control().
  *
- * @param Message|String $message
+ * @param string $messageThe message. When creating the type will be passed.
  *  The message. When creating the type will be passed.
  * @param $op
  *  The operation: create, update, read or delete.
@@ -35,7 +35,7 @@ function hook_message_ui_view_alter(&$build, Message $message)
  * @return bool
  *  True or false.
  */
-function hook_message_message_ui_access_control(Message $message, $op, AccountInterface $account) 
+function hook_message_message_ui_access_control(Message $message, $op, AccountInterface $account)
 {
-    return MESSAGE_UI_DENY;
+  return MESSAGE_UI_DENY;
 }
