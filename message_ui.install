@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Contains Drupal\message_ui\message_ui.install.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function message_ui_install() {
+  // Display all message fields on form and display.
+  foreach (\Drupal::entityTypeManager()->getStorage('message_template')->loadMultiple() as $template) {
+    /* @var $template Drupal\message\Entity\MessageTemplate */
+    $display = \Drupal::entityTypeManager()
+      ->getStorage('entity_view_display')
+      ->load('message_template' . '.' . $template->id() . '.' . 'default');
+
+    /* @var $display Drupal\Core\Entity\Display\EntityDisplayInterface */
+    foreach ($display->getComponents() as $component) {
+      debug($component);
+    }
+  }
+}
