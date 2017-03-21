@@ -38,8 +38,11 @@ before_script:
 
   # install Drupal
   - composer require drush/drush
-  - ls -al
-  - vendor/drush/drush/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
+  - vendor/drush/drush/drush site-install --yes --db-url=mysql://root:@127.0.0.1/message_ui
+
+  # Get modules
+  - vendor/drush/drush/drush dl message
+  - vendor/drush/drush/drush dl message_notify
 
   # Reference Message UI in the Drupal site.
   - ln -s $TESTDIR modules/message_ui
