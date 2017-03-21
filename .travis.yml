@@ -49,6 +49,6 @@ before_script:
   - export SIMPLETEST_BASE_URL=http://localhost:8888
 
 script:
- - ls -al
+  - ls -al
   # Run the PHPUnit tests which also include the kernel tests.
   - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
