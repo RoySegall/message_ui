@@ -14,13 +14,6 @@ mysql:
 
 before_script:
 
-  # Installing composer
-  - curl -sS https://getcomposer.org/installer | php
-  - sudo mv composer.phar /usr/local/bin/composer
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer self-update
-#  - composer global require drush/drush:8.0.5
-
   # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
   # function nesting level of '256' reached."
   # We also don't care if that file exists or not on PHP 7.
@@ -58,4 +51,3 @@ before_script:
 script:
   # Run the PHPUnit tests which also include the kernel tests.
   - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
-
