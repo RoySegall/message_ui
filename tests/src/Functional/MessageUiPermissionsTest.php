@@ -78,15 +78,16 @@ class MessageUiPermissionsTest extends MessageTestBase {
 
     // Verify the user can't create the message.
     $this->drupalGet($create_url);
+
     // The user can't create a message.
-    $this->assertResponse(403);
+    $this->assertSession()->statusCodeEquals(403);
 
     // Grant and check create permissions for a message.
     $this->grantMessageUiPermission('create');
     $this->drupalGet($create_url);
 
     // Check for valid response.
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
     // Create a message.
     $this->drupalPostForm(NULL, array(), t('Save'));
@@ -98,23 +99,23 @@ class MessageUiPermissionsTest extends MessageTestBase {
     $this->grantMessageUiPermission('view');
     $this->drupalGet($msg_url);
     // The user can view a message.
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
     // Verify can't edit the message.
     $this->drupalGet($msg_url . '/edit');
     // The user can't edit a message.
-    $this->assertResponse(403);
+    $this->assertSession()->statusCodeEquals(403);
 
     // Grant permission to the user.
     $this->grantMessageUiPermission('edit');
     $this->drupalGet($msg_url . '/edit');
     // The user can't edit a message.
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
     // Verify the user can't delete the message.
     $this->drupalGet($msg_url . '/delete');
     // The user can't delete the message.
-    $this->assertResponse(403);
+    $this->assertSession()->statusCodeEquals(403);
 
     // Grant the permission to the user.
     $this->grantMessageUiPermission('delete');
@@ -122,11 +123,11 @@ class MessageUiPermissionsTest extends MessageTestBase {
 
     // User did not have permission to the overview page - verify access
     // denied.
-    $this->assertResponse(403); // The user can't access the over view page.
+    $this->assertSession()->statusCodeEquals(403);
 
     user_role_grant_permissions($this->rid, array('administer message templates'));
     $this->drupalGet('/admin/content/messages');
-    $this->assertResponse(200); // The user can access the over view page.
+    $this->assertSession()->statusCodeEquals(200);
 
     // Create a new user with the bypass access permission and verify the
     // bypass.
@@ -136,8 +137,9 @@ class MessageUiPermissionsTest extends MessageTestBase {
     // Verify the user can by pass the message access control.
     $this->drupalLogin($user);
     $this->drupalGet($create_url);
+
     // The user can bypass the message access control.
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
   }
 
   /**
@@ -182,7 +184,7 @@ class MessageUiPermissionsTest extends MessageTestBase {
       $message->{$op} = $value;
       $params = array('@operation' => $op, '@value' => $value);
 
-      $this->assertEqual($value, $this->accessHandler->access($message, $op, $this->account), new FormattableMarkup('The hook return @value for @operation', $params));
+      $this->assertEquals($value, $this->accessHandler->access($message, $op, $this->account), new FormattableMarkup('The hook return @value for @operation', $params));
     }
   }
 }
