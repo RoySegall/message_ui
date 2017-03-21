@@ -19,7 +19,7 @@ use Drupal\user\UserInterface;
  *
  * @group Message UI
  */
-class MessageUiPermissions extends MessageTestBase {
+class MessageUiPermissionsTest extends MessageTestBase {
 
   /**
    * The message access control handler.
