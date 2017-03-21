@@ -15,9 +15,11 @@ mysql:
 before_script:
 
   # Install drush
+  - curl -sS https://getcomposer.org/installer | php
+  - sudo mv composer.phar /usr/local/bin/composer
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer self-update
-  - composer global require drush/drush
-  - alias drush='/home/travis/.composer/vendor/drush/drush/drush'
+  - composer require drush/drush
 
   # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
   # function nesting level of '256' reached."
