@@ -40,7 +40,7 @@ before_script:
   - cd drupal
 
   # install Drupal
-  - ./../vendor/bin/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
+  - ./../vendor/drush/drush/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
 
   # Reference Message UI in the Drupal site.
   - ln -s $TESTDIR modules/message_ui
