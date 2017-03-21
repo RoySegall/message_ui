@@ -1,6 +1,14 @@
-update_tokens:
-  update_tokens: false
-  how_to_act: 'update_when_added'
-  number_items: 250
-show_preview: true
-anonymous: 'Anonymous'
+type: config_object
+label: 'Field settings'
+mapping:
+  update_tokens:
+    type: message_ui.update_tokens
+  show_preview:
+    type: boolean
+    label: 'Show Preview'
+  anonymous:
+    type: string
+    label: 'Anonymous'
+  dispaly_all_fields:
+    type: boolean
+    label: 'Display all form fields when creating a message type'
