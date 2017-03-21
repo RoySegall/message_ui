@@ -14,9 +14,6 @@ mysql:
 
 before_script:
 
-  # Install drush
-  - composer require drush/drush
-
   # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
   # function nesting level of '256' reached."
   # We also don't care if that file exists or not on PHP 7.
@@ -40,9 +37,9 @@ before_script:
   - cd drupal
 
   # install Drupal
-  - ls -al
-  - ls -al ../
-  - ./../vendor/drush/drush/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
+  - composer require drush/drush
+
+  - /vendor/drush/drush/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
 
   # Reference Message UI in the Drupal site.
   - ln -s $TESTDIR modules/message_ui
