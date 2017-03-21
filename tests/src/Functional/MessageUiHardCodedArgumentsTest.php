@@ -18,7 +18,7 @@ use Drupal\user\UserInterface;
  *
  * @group Message UI
  */
-class MessageUiHardCodedArguments extends MessageTestBase {
+class MessageUiHardCodedArgumentsTest extends MessageTestBase {
 
   /**
    * The first user object.
@@ -66,7 +66,11 @@ class MessageUiHardCodedArguments extends MessageTestBase {
     $this->drupalLogin($this->user1);
 
     // Create Message Template of 'Dummy Test'.
-    $this->createMessageTemplate('dummy_message', 'Dummy test', 'This is a dummy message with a dummy message', array('Dummy message'));
+    $this->createMessageTemplate(
+      'dummy_message',
+      'Dummy test',
+      'This is a dummy message with a dummy message',
+      ['@{message:author:name}']);
 
     // Get the message template and create an instance.
     $message_template = $this->loadMessageTemplate('dummy_message');
@@ -90,7 +94,7 @@ class MessageUiHardCodedArguments extends MessageTestBase {
 
     // Update the message arguments automatically.
     $edit = array(
-      'name' => $this->user2->label(),
+      'name' => $this->user2->getAccountName() . ' (' . $this->user2->id() . ')',
       'replace_tokens' => 'update',
     );
 
@@ -103,7 +107,7 @@ class MessageUiHardCodedArguments extends MessageTestBase {
     $edit = array(
       'name' => $this->user2->label(),
       'replace_tokens' => 'update_manually',
-      '@{message:user:name}' => 'Dummy name',
+      'edit-messageauthorname' => 'Dummy name',
     );
 
     $this->drupalPostForm('message/' . $message->id() . '/edit', $edit, t('Update'));
