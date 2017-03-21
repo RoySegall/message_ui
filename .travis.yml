@@ -17,6 +17,7 @@ before_script:
   # Install drush
   - composer self-update
   - composer global require drush/drush
+  - alias drush='/home/travis/.composer/vendor/drush/drush/drush'
 
   # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
   # function nesting level of '256' reached."
