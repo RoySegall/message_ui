@@ -14,6 +14,10 @@ mysql:
 
 before_script:
 
+  # Install drush
+  - composer self-update
+  - composer global require drush/drush
+
   # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
   # function nesting level of '256' reached."
   # We also don't care if that file exists or not on PHP 7.
@@ -27,7 +31,7 @@ before_script:
   - cd ..
 
   # Create database.
-  - mysql -e 'create database rethinkdb'
+  - mysql -e 'create database message_ui'
 
   # Export database variable for kernel tests.
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/message_ui
@@ -36,7 +40,10 @@ before_script:
   - travis_retry git clone --branch $DRUPAL_CORE --depth 1 https://git.drupal.org/project/drupal.git
   - cd drupal
 
-  # Reference OG in the Drupal site.
+  # install Drupal
+  - drush si --db-url=mysql://root:@127.0.0.1/message_ui
+
+  # Reference Message UI in the Drupal site.
   - ln -s $TESTDIR modules/message_ui
 
   # Start a web server on port 8888 in the background.
