@@ -15,10 +15,6 @@ mysql:
 before_script:
 
   # Install drush
-  - curl -sS https://getcomposer.org/installer | php
-  - sudo mv composer.phar /usr/local/bin/composer
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer self-update
   - composer require drush/drush
 
   # Remove Xdebug as we don't need it and it causes "PHP Fatal error: Maximum
@@ -44,7 +40,7 @@ before_script:
   - cd drupal
 
   # install Drupal
-  - drush si --db-url=mysql://root:@127.0.0.1/message_ui
+  - ./../vendor/bin/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
 
   # Reference Message UI in the Drupal site.
   - ln -s $TESTDIR modules/message_ui
