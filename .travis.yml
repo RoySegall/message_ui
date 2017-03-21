@@ -40,6 +40,8 @@ before_script:
   - cd drupal
 
   # install Drupal
+  - ls -al
+  - ls -al ../
   - ./../vendor/drush/drush/drush site-install --verbose --yes --db-url=mysql://root:@127.0.0.1/message_ui
 
   # Reference Message UI in the Drupal site.
@@ -55,6 +57,5 @@ before_script:
   - export SIMPLETEST_BASE_URL=http://localhost:8888
 
 script:
-  - ls -al
   # Run the PHPUnit tests which also include the kernel tests.
   - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
