@@ -38,7 +38,6 @@ before_script:
 
   # install Drupal
   - composer require drush/drush
-  - vendor/drush/drush/drush site-install --yes --db-url=mysql://root:@127.0.0.1/message_ui
 
   # Get modules
   - vendor/drush/drush/drush dl message
