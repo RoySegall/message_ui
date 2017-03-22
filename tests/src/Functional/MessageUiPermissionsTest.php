@@ -69,7 +69,7 @@ class MessageUiPermissionsTest extends MessageTestBase {
   /**
    * Test message_access use case.
    */
-  public function _testMessageUiPermissions() {
+  public function testMessageUiPermissions() {
     // User login.
     $this->drupalLogin($this->account);
 
@@ -90,7 +90,7 @@ class MessageUiPermissionsTest extends MessageTestBase {
     $this->assertSession()->statusCodeEquals(200);
 
     // Create a message.
-    $this->drupalPostForm(NULL, array(), t('Save'));
+    $this->drupalPostForm(NULL, array(), t('Create'));
 
     // Create the message url.
     $msg_url = '/message/1';
@@ -183,7 +183,6 @@ class MessageUiPermissionsTest extends MessageTestBase {
       // return the expected value then we know the hook got in action.
       if ($op == 'create') {
         $returned = $this->accessHandler->createAccess($message_template->id(), $this->account);
-        var_dump($returned);
       }
       else {
         $message->{$op} = $value;

@@ -9,7 +9,7 @@
  * Implements hook_message_message_ui_access_control.
  */
 function message_ui_test_message_message_ui_access_control(\Drupal\message\MessageInterface $message, $op, \Drupal\Core\Session\AccountInterface $account) {
-  return $message->{$op} ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden();
+  return \Drupal\Core\Access\AccessResult::allowedIf($message->{$op});
 }
 
 /**
@@ -17,5 +17,5 @@ function message_ui_test_message_message_ui_access_control(\Drupal\message\Messa
  */
 function message_ui_test_message_message_ui_create_access_control($template, \Drupal\Core\Session\AccountInterface $account) {
   // The tests expect an allowed result when creating.
-  return \Drupal\Core\Access\AccessResult::forbidden();
+  return \Drupal\Core\Access\AccessResult::allowed();
 }

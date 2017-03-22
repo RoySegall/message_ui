@@ -31,6 +31,17 @@ class MessageAccessControlHandler extends EntityAccessControlHandler {
       return AccessResult::allowed()->cachePerPermissions();
     }
 
+    /** @var AccessResult[] $results */
+    $results = $this->moduleHandler()->invokeAll('message_message_ui_access_control', [$entity, $operation, $account]);
+
+    foreach ($results as $result) {
+      if ($result->isNeutral()) {
+        continue;
+      }
+
+      return $result;
+    }
+
     return AccessResult::allowedIfHasPermission($account, $operation . ' ' . $entity->bundle() . ' message')->cachePerPermissions();
   }
 
