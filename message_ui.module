@@ -261,8 +261,6 @@ function message_ui_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
   $message = Message::load(reset($keys));
   $new_arguments = MessageArgumentsWorker::getArguments($entity->getTemplate());
 
-  var_dump($new_arguments);
-
   $old_arguments_number = count($message->getArguments());
   $new_arguments_number = $new_arguments;
   $how_to_act = \Drupal::config('message_ui.settings')
