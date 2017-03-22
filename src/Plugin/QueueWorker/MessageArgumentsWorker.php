@@ -71,8 +71,11 @@ class MessageArgumentsWorker extends QueueWorkerBase {
    *   The number of the arguments.
    */
   public static function getArguments($template, $count = FALSE) {
+
     /* @var $message_template MessageTemplate */
-    $message_template = MessageTemplate::load($template);
+    if (!$message_template = MessageTemplate::load($template)) {
+      return FALSE;
+    }
 
     if (!$output = $message_template->getText()) {
       return FALSE;

@@ -69,7 +69,7 @@ class MessageUiPermissionsTest extends MessageTestBase {
   /**
    * Test message_access use case.
    */
-  public function testMessageUiPermissions() {
+  public function _testMessageUiPermissions() {
     // User login.
     $this->drupalLogin($this->account);
 
@@ -181,10 +181,22 @@ class MessageUiPermissionsTest extends MessageTestBase {
       // When the hook access of the dummy module will get in action it will
       // check which value need to return. If the access control function will
       // return the expected value then we know the hook got in action.
-      $message->{$op} = $value;
-      $params = array('@operation' => $op, '@value' => $value);
+      if ($op == 'create') {
+        $returned = $this->accessHandler->createAccess($message_template->id(), $this->account);
+        var_dump($returned);
+      }
+      else {
+        $message->{$op} = $value;
+        $returned = $this->accessHandler->access($message, $op, $this->account);
+      }
 
-      $this->assertEquals($value, $this->accessHandler->access($message, $op, $this->account), new FormattableMarkup('The hook return @value for @operation', $params));
+      $params = array(
+        '@operation' => $op,
+        '@value' => $value,
+        '@returned' => $returned
+      );
+
+      $this->assertEquals($value, $returned, new FormattableMarkup('The hook return @value for @operation when it need to return @returned', $params));
     }
   }
 }
