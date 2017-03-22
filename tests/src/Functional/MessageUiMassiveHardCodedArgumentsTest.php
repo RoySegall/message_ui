@@ -19,7 +19,6 @@ use Drupal\user\UserInterface;
  * @group Message UI
  */
 class MessageUiMassiveHardCodedArgumentsTest extends MessageTestBase {
-  use CronRunTrait;
 
   /**
    * The user object.
