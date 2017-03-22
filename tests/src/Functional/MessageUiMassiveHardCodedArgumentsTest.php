@@ -47,20 +47,19 @@ class MessageUiMassiveHardCodedArgumentsTest extends MessageTestBase {
     parent::setUp();
 
     $this->user = $this->drupalCreateUser();
-
-    // Set a queue worker for the update arguments when updating a message
-    // template.
-    $this->configSet('update_tokens.update_tokens', TRUE, 'message_ui.settings');
-    $this->configSet('update_tokens.how_to_update', 'update_with_item', 'message_ui.settings');
   }
 
   /**
    * Test removal of added arguments.
    */
   public function testRemoveAddingArguments() {
-    return;
     // Create Message Template of 'Dummy Test.
     $this->messageTemplate = $this->createMessageTemplate('dummy_message', 'Dummy test', 'This is a dummy message', array('@{message:author:name} @{message:author:mail}'));
+
+    // Set a queue worker for the update arguments when updating a message
+    // template.
+    $this->configSet('update_tokens.update_tokens', TRUE, 'message_ui.settings');
+    $this->configSet('update_tokens.how_to_update', 'update_with_item', 'message_ui.settings');
 
     /* @var $message Message */
     $message = Message::create(['template' => $this->messageTemplate->id()]);
@@ -75,7 +74,13 @@ class MessageUiMassiveHardCodedArgumentsTest extends MessageTestBase {
     $this->configSet('update_tokens.how_to_act', 'update_when_removed', 'message_ui.settings');
 
     // Set message text.
-    $this->messageTemplate->set('text', ['value' => '@{message:author:name}.', 'filter' => 'full_html'])->save();
+    $this->messageTemplate->set('text', [
+      [
+        'value' => '@{message:author:name}.',
+        'format' => filter_default_format(),
+      ],
+    ]);
+    $this->messageTemplate->save();
 
     // Fire the queue worker.
     $queue = \Drupal::queue('message_ui_arguments');

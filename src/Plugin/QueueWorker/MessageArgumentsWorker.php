@@ -6,6 +6,7 @@
 
 namespace Drupal\message_ui\Plugin\QueueWorker;
 
+use Drupal\Core\Render\Markup;
 use Drupal\message\Entity\Message;
 use Drupal\message\Entity\MessageTemplate;
 use Drupal\message\MessageInterface;
@@ -81,7 +82,13 @@ class MessageArgumentsWorker extends QueueWorkerBase {
       return FALSE;
     }
 
-    preg_match_all('/[@|%|\!]\{([a-z0-9:_\-]+?)\}/i', $output, $matches);
+    $text = array_map(function(Markup $markup) {
+      return (string) $markup;
+
+    }, $output);
+
+    $text = implode("\n", $text);
+    preg_match_all('/[@|%|\!]\{([a-z0-9:_\-]+?)\}/i', $text, $matches);
 
     return $count ? count($matches[0]) : $matches[0];
   }
