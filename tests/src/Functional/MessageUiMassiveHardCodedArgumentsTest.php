@@ -17,7 +17,7 @@ use Drupal\user\UserInterface;
  *
  * @group Message UI
  */
-class MessageUiMassiveHardCodedArgumentsTest extends MessageTestBase {
+class MessageUiMassiveHardCodedArguments extends MessageTestBase {
 
   /**
    * The user object.
