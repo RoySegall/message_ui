@@ -311,9 +311,10 @@ function message_ui_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
     batch_process('admin/structure/messages');
   }
   elseif ($how_to_update == 'update_with_item') {
+    // Don't use queue worker - un-testable for some reason.
     // Define the queue item data.
     $data = array(
-      'type' => $type,
+      'template' => $entity->getTemplate(),
       'last_mid' => 0,
       'new_arguments' => $new_arguments,
       'item_to_process' => $item_to_process,
