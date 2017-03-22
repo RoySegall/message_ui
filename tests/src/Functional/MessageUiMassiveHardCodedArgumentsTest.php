@@ -57,7 +57,7 @@ class MessageUiMassiveHardCodedArgumentsTest extends MessageTestBase {
   /**
    * Test removal of added arguments.
    */
-  public function testRemoveAddingArguments() {
+  public function _testRemoveAddingArguments() {
     // Create Message Template of 'Dummy Test.
     $this->messageTemplate = $this->createMessageTemplate('dummy_message', 'Dummy test', 'This is a dummy message', array('@{message:author:name} @{message:author:mail}'));
 

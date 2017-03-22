@@ -125,7 +125,7 @@ class MessageUiPermissionsTest extends MessageTestBase {
     // denied.
     $this->assertSession()->statusCodeEquals(403);
 
-    user_role_grant_permissions($this->rid, array('administer message templates'));
+    user_role_grant_permissions($this->rid, array('overview messages'));
     $this->drupalGet('/admin/content/messages');
     $this->assertSession()->statusCodeEquals(200);
 
