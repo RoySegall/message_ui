@@ -102,6 +102,16 @@ class MessageMultipleDeleteForm extends FormBase {
       );
     }
 
+    // Set the batch.
+    $batch = array(
+      'operations' => $operations,
+      'title' => t('Updating the messages arguments.'),
+      'init_message' => t('Start process messages.'),
+      'progress_message' => t('Processed @current out of @total.'),
+      'error_message' => t('Example Batch has encountered an error.'),
+    );
+    batch_set($batch);
+    batch_process('admin/content/messages');
   }
 
   /**
