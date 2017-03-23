@@ -2,4 +2,3 @@ services:
   message_ui.field_display_manager:
     class: Drupal\message_ui\MessageUIFieldDisplayManagerService
     arguments: ['@entity_type.manager']
-

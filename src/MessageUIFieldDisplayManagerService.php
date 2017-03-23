@@ -31,12 +31,26 @@ class MessageUIFieldDisplayManagerService implements MessageUIFieldDisplayManage
    * {@inheritdoc}
    */
   public function SetFieldsDisplay($template) {
+    $this->entityTypeManager->getStorage('entity_form_display')
+      ->resetCache();
+
     /** @var \Drupal\Core\Entity\Display\EntityDisplayInterface $form_display */
     $form_display = $this->entityTypeManager->getStorage('entity_form_display')->load("message.{$template}.default");
 
-    foreach (array_keys($form_display->get('hidden')) as $hidden) {
-      $form_display->setComponent($hidden, ['field_name' => $hidden]);
-      $form_display->save();
+    if (!$form_display) {
+      $form_display = \Drupal::entityTypeManager()
+        ->getStorage('entity_form_display')
+        ->create([
+          'targetEntityType' => 'message',
+          'bundle' => $template,
+          'mode' => 'default',
+          'status' => TRUE,
+        ]);
+
+      foreach (array_keys($form_display->get('hidden')) as $hidden) {
+        $form_display->setComponent($hidden, ['field_name' => $hidden]);
+        $form_display->save();
+      }
     }
   }
 
