@@ -148,7 +148,7 @@ class MessageUiPermissionsTest extends MessageTestBase {
    * @param string $operation
    *   The template of operation - create, update, delete or view.
    */
-  private function grantMessageUiPermission($operation) {
+  protected function grantMessageUiPermission($operation) {
     user_role_grant_permissions($this->rid, array($operation . ' foo message'));
   }
 
