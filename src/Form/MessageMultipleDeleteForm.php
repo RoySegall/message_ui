@@ -2,12 +2,11 @@
 
 namespace Drupal\message_ui\Form;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\message\MessageInterface;
 use Drupal\message\MessageTemplateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManager;
 
 /**
  * Class MessageMultipleDeleteForm.
@@ -17,19 +16,19 @@ use Drupal\Core\Entity\EntityTypeManager;
 class MessageMultipleDeleteForm extends FormBase {
 
   /**
-   * Drupal\Core\Entity\EntityTypeManager definition.
+   * Drupal\Core\Entity\EntityTypeManagerInterface definition.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManager
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * Constructor.
    *
-   * @param EntityTypeManager $entity_type_manager
+   * @param EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    */
-  public function __construct(EntityTypeManager $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
   }
 
@@ -98,30 +97,39 @@ class MessageMultipleDeleteForm extends FormBase {
     foreach ($chunks as $chunk) {
       $operations[] = array(
         '\Drupal\message_ui\Form\MessageMultipleDeleteForm::deleteMessages',
-        array($this->entityTypeManager->getStorage('message')->loadMultiple($chunk))
+        array($chunk),
       );
     }
 
     // Set the batch.
     $batch = array(
+      'title' => $this->t('Deleting messages'),
       'operations' => $operations,
-      'title' => t('Updating the messages arguments.'),
-      'init_message' => t('Start process messages.'),
-      'progress_message' => t('Processed @current out of @total.'),
-      'error_message' => t('Example Batch has encountered an error.'),
+      'finished' => '\Drupal\message_ui\Form\MessageMultipleDeleteForm::deleteMessagesFinish',
     );
     batch_set($batch);
-    batch_process('admin/content/messages');
   }
 
   /**
    * Delete multiple messages.
    *
-   * @param MessageInterface[] $messages
-   *   The message objects.
+   * @param $mids
+   *   The message IDS.
    */
-  static public function deleteMessages($messages) {
+  static public function deleteMessages($mids, &$sandbox) {
+    $messages = \Drupal::entityTypeManager()->getStorage('message')->loadMultiple($mids);
+    $sandbox['message'] = t('Deleting messages between @start ot @end', [
+      '@start' => reset($mids),
+      '@end' => end($mids),
+    ]);
     \Drupal::entityTypeManager()->getStorage('message')->delete($messages);
+  }
+
+  /**
+   * Notify the people the messages were deleted.
+   */
+  static public function deleteMessagesFinish() {
+    drupal_set_message(t('The messages were deleted.'));
   }
 
 }
