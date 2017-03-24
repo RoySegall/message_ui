@@ -1,0 +1,52 @@
+language: php
+sudo: false
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+addons:
+  apt:
+    packages:
+      - php5-cgi
+      - php5-mysql
+
+install:
+
+  # add composer's global bin directory to the path
+  # see: https://github.com/drush-ops/drush#install---composer
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  # install drush globally
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer global require drush/drush:7.0
+
+before_script:
+  # navigate out of module directory to prevent blown stack by recursive module
+  # lookup
+  - cd ../..
+
+  # create new site, stubbing sendmail path with true to prevent delivery errors
+  # and manually resolving drush path
+  - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes core-quick-drupal --profile=testing --no-server --db-url=mysql://root:@127.0.0.1/drupal --enable=simpletest drupal
+
+  # reference and enable message_ui in build site
+  - ln -s $(readlink -e $(cd -)) drupal/drupal/sites/all/modules/message_ui
+  - cd drupal/drupal
+
+  # Enabling the modules.
+  - drush --yes pm-enable message_ui message_ui_restful message_ui_reports
+
+  # start a web server on port 8080, run in the background; wait for initialization
+  - drush runserver 127.0.0.1:8080 > ~/php-server.log 2>&1 &
+
+script:
+  - php scripts/run-tests.sh --php $(which php) --concurrency 4 --verbose --color --url 127.0.0.1:8080 'Message UI' 2>&1 | tee /tmp/simpletest-result.txt
+  - egrep -i "([1-9]+ fail)|(Fatal error)|([1-9]+ exception)" /tmp/simpletest-result.txt && exit 1
+  - exit 0
