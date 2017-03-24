@@ -62,4 +62,3 @@ message_ui.message_multiple_delete_form:
     _title: 'MessageMultipleDeleteForm'
   requirements:
     _access: 'TRUE'
-  
