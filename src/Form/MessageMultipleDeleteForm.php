@@ -3,6 +3,7 @@
 namespace Drupal\message_ui\Form;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\message\MessageTemplateInterface;
@@ -23,13 +24,21 @@ class MessageMultipleDeleteForm extends FormBase {
   protected $entityTypeManager;
 
   /**
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Constructor.
    *
    * @param EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param ModuleHandlerInterface $module_handler
+   *   The module handler service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -37,7 +46,8 @@ class MessageMultipleDeleteForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('module_handler')
     );
   }
 
@@ -88,8 +98,14 @@ class MessageMultipleDeleteForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $templates = $form_state->getValue('message_templates');
-    $messages = $this->entityTypeManager->getStorage('message')->getQuery()
-      ->condition('template', $templates, 'IN')
+    $query = $this->entityTypeManager->getStorage('message')->getQuery()
+      ->condition('template', $templates, 'IN');
+
+    // Allow other modules to alter the query.
+    $this->moduleHandler->alter('message_ui_multiple_message_delete_query', $query);
+
+    // Get the messages.
+    $messages = $query
       ->execute();
 
     $chunks = array_chunk($messages, 250);
