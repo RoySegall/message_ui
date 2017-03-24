@@ -41,7 +41,7 @@ before_script:
   - cd drupal/drupal
 
   # Enabling the modules.
-  - drush --yes pm-enable message_ui message_ui_restful message_ui_reports
+  - drush --yes pm-enable message_ui
 
   # start a web server on port 8080, run in the background; wait for initialization
   - drush runserver 127.0.0.1:8080 > ~/php-server.log 2>&1 &
