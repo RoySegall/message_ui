@@ -57,7 +57,7 @@ class MessageUiPermissions extends DrupalWebTestCase {
 
     // Verify can't edit the message.
     $this->drupalGet('message/1/edit');
-    $this->assertResponse(43, "The user can't edit message.");
+    $this->assertResponse(403, "The user can't edit message.");
 
     // Grant permission to the user.
     $this->grantMessageUiPermission('edit');
