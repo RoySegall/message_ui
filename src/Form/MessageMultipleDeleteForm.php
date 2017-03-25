@@ -33,9 +33,9 @@ class MessageMultipleDeleteForm extends FormBase {
    * Constructor.
    *
    * @param EntityTypeManagerInterface $entity_type_manager
-  The entity type manager service.
+   *   The entity type manager service.
    * @param ModuleHandlerInterface $module_handler
-  The module handler service.
+   *   The module handler service.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler) {
     $this->entityTypeManager = $entity_type_manager;
@@ -64,21 +64,10 @@ class MessageMultipleDeleteForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $fo = \Drupal::service('renderer');
-
-    $elements = [array(
-'#type' => 'dropbutton',
-'#links' => array(
-  'simple_form' => array(
-    'title' => $this->t('Simple Form'),
-    'url' => Url::fromRoute('message_ui.message_multiple_delete_form'),
-  ),
-),)];
-    $bar = $fo->renderPlain($elements);
-    dpm($bar);
     /** @var MessageTemplateInterface $templates */
     $templates = $this->entityTypeManager->getStorage('message_template')->loadMultiple();
     $options = [];
+
     foreach ($templates as $template) {
       $options[$template->id()] = $template->label();
     }
@@ -144,7 +133,7 @@ class MessageMultipleDeleteForm extends FormBase {
    * Delete multiple messages.
    *
    * @param $mids
-  The message IDS.
+   *   The message IDS.
    */
   static public function deleteMessages($mids, &$sandbox) {
     $messages = \Drupal::entityTypeManager()->getStorage('message')->loadMultiple($mids);
@@ -152,6 +141,7 @@ class MessageMultipleDeleteForm extends FormBase {
       '@start' => reset($mids),
       '@end' => end($mids),
     ]);
+
     \Drupal::entityTypeManager()->getStorage('message')->delete($messages);
   }
 

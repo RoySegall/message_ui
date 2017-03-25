@@ -10,6 +10,8 @@
  */
 function message_ui_views_data() {
 
+  $data = [];
+
   $data['message']['message_ui_contextual_links'] = [
     'field' => [
       'title' => t('Contextual links'),

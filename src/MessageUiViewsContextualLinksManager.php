@@ -11,7 +11,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
  */
 class MessageUiViewsContextualLinksManager extends DefaultPluginManager {
 
-
   /**
    * Constructor for MessageUiViewsContextualLinksManager objects.
    *
