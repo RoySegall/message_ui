@@ -62,10 +62,10 @@ class MessageUiContextualLinkViewMessage extends MessageUiViewsContextualLinksBa
   /**
    * {@inheritdoc}
    */
-  public function getRouterId() {
+  public function getRouterInfo() {
     return [
-      'title' => t('Place block'),
-      'url' => Url::fromRoute('message_ui.message_multiple_delete_form'),
+      'title' => t('View'),
+      'url' => Url::fromRoute('entity.message.canonical', ['message' => $this->message->id()]),
     ];
   }
 

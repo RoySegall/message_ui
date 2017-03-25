@@ -30,6 +30,14 @@ interface MessageUiViewsContextualLinksInterface extends PluginInspectionInterfa
    *
    * @return string
    */
-  public function getRouterId();
+  public function getRouterInfo();
+
+  /**
+   * Checking if the user have access to do the action.
+   *
+   * @return \Drupal\Core\Access\AccessResultInterface
+   *   Access result interface object.
+   */
+  public function access();
 
 }

@@ -50,8 +50,9 @@ class MessageUIContextualLinks extends FieldPluginBase {
     foreach ($contextual_links->getDefinitions() as $plugin) {
       /** @var MessageUiViewsContextualLinksInterface $contextual_link */
       $contextual_link = $contextual_links->createInstance($plugin['id']);
+      $contextual_link->setMessage($values->_entity);
 
-      if (!$link = $contextual_link->getRouterId()) {
+      if (!$link = $contextual_link->getRouterInfo()) {
         // Nothing happens in the plugin. Skip.
         continue;
       }
