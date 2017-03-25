@@ -28,7 +28,7 @@ interface MessageUiViewsContextualLinksInterface extends PluginInspectionInterfa
   /**
    * Return the an array with the router ID and message info.
    *
-   * @return string
+   * @return array
    */
   public function getRouterInfo();
 

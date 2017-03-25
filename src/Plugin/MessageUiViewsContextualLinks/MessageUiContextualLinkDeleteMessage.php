@@ -11,12 +11,12 @@ use Drupal\Core\Entity\EntityTypeManager;
 
 /**
  * @MessageUiViewsContextualLinks(
- *  id = "message_ui_contextual_link_view_message",
- *  label = @Translation("Button to view a message."),
- *  weight = 0
+ *  id = "message_ui_contextual_link_delete_message",
+ *  label = @Translation("Button the delete a message."),
+ *  weight = 2
  * )
  */
-class MessageUiContextualLinkViewMessage extends MessageUiViewsContextualLinksBase implements MessageUiViewsContextualLinksInterface , ContainerFactoryPluginInterface {
+class MessageUiContextualLinkDeleteMessage extends MessageUiViewsContextualLinksBase implements MessageUiViewsContextualLinksInterface , ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Entity\EntityTypeManager definition.
@@ -56,7 +56,7 @@ class MessageUiContextualLinkViewMessage extends MessageUiViewsContextualLinksBa
    * {@inheritdoc}
    */
   public function access() {
-    return $this->message->access('create');
+    return $this->message->access('delete');
   }
 
   /**
@@ -64,8 +64,8 @@ class MessageUiContextualLinkViewMessage extends MessageUiViewsContextualLinksBa
    */
   public function getRouterInfo() {
     return [
-      'title' => t('View'),
-      'url' => Url::fromRoute('entity.message.canonical', ['message' => $this->message->id()]),
+      'title' => t('Delete'),
+      'url' => Url::fromRoute('entity.message.delete_form', ['message' => $this->message->id()]),
     ];
   }
 

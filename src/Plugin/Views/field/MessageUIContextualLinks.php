@@ -57,8 +57,10 @@ class MessageUIContextualLinks extends FieldPluginBase {
         continue;
       }
 
-      $links[$plugin['id']] = $link;
+      $links[$plugin['id']] = $link + ['weight' => $plugin['weight']];
     }
+
+    usort($links, ['Drupal\Component\Utility\SortArray', 'sortByWeightElement']);
 
     $row['operations']['data'] = [
       '#type' => 'operations',
