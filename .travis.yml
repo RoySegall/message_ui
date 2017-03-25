@@ -3,10 +3,6 @@ sudo: false
 
 php: 7.0
 
-env:
-  matrix:
-    - MODE=cs
-    - MODE=functional
 
 mysql:
   database: message_ui
@@ -34,11 +30,11 @@ before_script:
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/message_ui
 
   # Download Drupal 8 core.
-  - travis_retry git clone --branch 8.1.x --depth 1 https://git.drupal.org/project/drupal.git
+  - travis_retry git clone --branch $DRUPAL_CORE --depth 1 https://git.drupal.org/project/drupal.git
   - cd drupal
 
   # install Drupal
-  - composer --verbose install
+  - composer require drush/drush
 
   # Get modules
   - vendor/drush/drush/drush dl message
@@ -57,10 +53,5 @@ before_script:
   - export SIMPLETEST_BASE_URL=http://localhost:8888
 
 script:
-  - if [[ $MODE == cs ]]; then
-    ../vendor/bin/phpcs modules/message_ui;
-    fi
-  - if [[ $MODE == functional ]]; then
-    # Run the PHPUnit tests which also include the kernel tests.
-    ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
-    fi
+  # Run the PHPUnit tests which also include the kernel tests.
+  - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
