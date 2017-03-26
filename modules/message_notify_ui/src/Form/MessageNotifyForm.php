@@ -153,7 +153,6 @@ class MessageNotifyForm extends EntityForm {
 
     $senders_ids = array_keys($senders);
 
-
     $form['senders'] = [
       '#type' => 'radios',
       '#title' => $this->t('Select a notifier handler'),
@@ -185,6 +184,16 @@ class MessageNotifyForm extends EntityForm {
       $form['senders_form'][$definition['id']] = $plugin->form();
     }
 
+    $form['actions'] = [
+      '#type' => 'actions',
+      'submit' => [
+        '#type' => 'submit',
+        '#value' => $this->t('Notify'),
+        '#submit' => ['::submitForm', '::save'],
+        '#button_type' => 'primary',
+      ],
+    ];
+
     return $form;
   }
 
@@ -210,4 +219,5 @@ class MessageNotifyForm extends EntityForm {
       ->setMessage($this->entity)
       ->submit($this->messageNotifier, $form_state);
   }
+
 }

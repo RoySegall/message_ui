@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\message_notify_ui\Plugin;
+namespace Drupal\message_notify_ui;
 
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
@@ -24,7 +24,7 @@ class MessageNotifyUiSenderSettingsFormManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/MessageNotifyUiSenderSettingsForm', $namespaces, $module_handler, 'Drupal\message_notify_ui\Plugin\MessageNotifyUiSenderSettingsFormInterface', 'Drupal\message_notify_ui\Annotation\MessageNotifyUiSenderSettingsForm');
+    parent::__construct('Plugin/MessageNotifyUiSenderSettingsForm', $namespaces, $module_handler, 'Drupal\message_notify_ui\MessageNotifyUiSenderSettingsFormInterface', 'Drupal\message_notify_ui\Annotation\MessageNotifyUiSenderSettingsForm');
 
     $this->alterInfo('message_notify_ui_message_notify_ui_sender_settings_form_info');
     $this->setCacheBackend($cache_backend, 'message_notify_ui_message_notify_ui_sender_settings_form_plugins');

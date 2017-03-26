@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\message_notify_ui\Plugin;
+namespace Drupal\message_notify_ui;
 
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -23,6 +23,13 @@ abstract class MessageNotifyUiSenderSettingsFormBase extends PluginBase implemen
    * @var FormStateInterface
    */
   protected $formState;
+
+  /**
+   * The message object.
+   *
+   * @var \Drupal\message\Entity\Message
+   */
+  protected $message;
 
   /**
    * Setter for the form variable.
@@ -69,6 +76,38 @@ abstract class MessageNotifyUiSenderSettingsFormBase extends PluginBase implemen
   public function setFormState($formState) {
     $this->formState = $formState;
     return $this;
+  }
+
+  /**
+   * Get the message object.
+   *
+   * @return \Drupal\message\Entity\Message
+   *   The message object.
+   */
+  public function getMessage() {
+    return $this->message;
+  }
+
+  /**
+   * Set the message object.
+   *
+   * @param \Drupal\message\Entity\Message $message
+   *   The message object.
+   *
+   * @return $this
+   *   The current object.
+   */
+  public function setMessage($message) {
+    $this->message = $message;
+
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validate($form, FormStateInterface $formState) {
+    // Usually, there is nothing to validate.
   }
 
 }
