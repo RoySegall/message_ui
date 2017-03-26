@@ -13,6 +13,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\message_notify\MessageNotifier;
 use Drupal\message_notify_ui\Plugin\MessageNotifyUiSenderSettingsFormInterface;
+use Drupal\message_notify_ui\Plugin\MessageNotifyUiSenderSettingsFormManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\message_notify\Plugin\Notifier\Manager;
@@ -86,7 +87,7 @@ class MessageNotifyForm extends EntityForm {
    *   The message notifier service.
    * @param \Drupal\message_notify\Plugin\Notifier\Manager $message_notify_manager
    *   Message notifier manager service.
-   * @param MessageNotifyUiSenderSettingsFormInterface $message_notify_ui_setting_form_manager
+   * @param \Drupal\message_notify_ui\Plugin\MessageNotifyUiSenderSettingsFormManager $message_notify_ui_setting_form_manager
    *   The message notify UI sender settings form manager.
    *
    */
@@ -96,7 +97,7 @@ class MessageNotifyForm extends EntityForm {
     TimeInterface $time = NULL,
     MessageNotifier $message_notifier,
     Manager $message_notify_manager,
-    MessageNotifyUiSenderSettingsFormInterface $message_notify_ui_setting_form_manager)
+    MessageNotifyUiSenderSettingsFormManager $message_notify_ui_setting_form_manager)
   {
     $this->entityManager = $entity_manager;
 
@@ -137,6 +138,8 @@ class MessageNotifyForm extends EntityForm {
       '#title' => $this->t('Select a notifier handler'),
       '#options' => $senders,
     ];
+
+    dpm($this->messageNotifyUiSenderSettingsForm->getDefinitions());
 
     return $form;
   }
