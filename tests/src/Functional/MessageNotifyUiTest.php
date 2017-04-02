@@ -28,20 +28,16 @@ class MessageNotifyUiTest extends AbstractTestMessageUi {
   public function setUp() {
     parent::setUp();
 
-    $this->account = $this->drupalCreateUser();
+    $this->account = $this->drupalCreateUser(array(
+      'send message through the ui',
+      'overview messages',
+    ));
 
     // Load 'authenticated' user role.
     $this->rid = Role::load(RoleInterface::AUTHENTICATED_ID)->id();
 
     // Create Message template foo.
     $this->createMessageTemplate('foo', 'Dummy test', 'Example text.', array('Dummy message'));
-
-    // Grant and check create permissions for a message.
-    $permissions = array(
-      'send message through the ui',
-      'overview messages',
-    );
-    user_role_grant_permissions($this->rid, $permissions);
   }
 
   /**
