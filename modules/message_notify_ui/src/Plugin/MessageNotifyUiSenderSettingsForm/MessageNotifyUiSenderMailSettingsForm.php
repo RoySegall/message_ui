@@ -59,6 +59,10 @@ class MessageNotifyUiSenderMailSettingsForm extends MessageNotifyUiSenderSetting
       $settings['mail'] = $formState->getValue('email');
     }
 
+    if ($formState->getValue('language')) {
+      $settings['language override'] = $formState->getValue($formState->getValue('language'));
+    }
+
     $notifier->send($this->getMessage(), $settings, 'email');
   }
 
