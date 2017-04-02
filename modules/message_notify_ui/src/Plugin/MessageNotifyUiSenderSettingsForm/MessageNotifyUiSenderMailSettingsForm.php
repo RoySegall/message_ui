@@ -12,7 +12,7 @@ use Drupal\message_notify_ui\MessageNotifyUiSenderSettingsFormInterface;
  * @MessageNotifyUiSenderSettingsForm(
  *  id = "message_notify_ui_sender_settings_form",
  *  label = @Translation("The plugin ID."),
- *  plugin = "email"
+ *  notify_plugin = "email"
  * )
  */
 class MessageNotifyUiSenderMailSettingsForm extends MessageNotifyUiSenderSettingsFormBase implements MessageNotifyUiSenderSettingsFormInterface {

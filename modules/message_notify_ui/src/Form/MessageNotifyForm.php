@@ -179,7 +179,7 @@ class MessageNotifyForm extends EntityForm {
 
     foreach ($this->messageNotifyUiSenderSettingsForm->getDefinitions() as $definition) {
       $plugin = $this->messageNotifyUiSenderSettingsForm->createInstance($definition['id']);
-      $this->plugins[$definition['plugin']] = $definition['id'];
+      $this->plugins[$definition['notify_plugin']] = $definition['id'];
 
       $form['senders_form'][$definition['id']] = $plugin->form();
     }
