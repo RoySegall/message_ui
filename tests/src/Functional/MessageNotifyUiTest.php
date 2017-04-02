@@ -43,7 +43,7 @@ class MessageNotifyUiTest extends AbstractTestMessageUi {
   /**
    * Testing the displaying of the preview.
    */
-  public function testMessageUiPreviewDisplaying() {
+  public function testMessageNotifyUi() {
 
     // User login.
     $this->drupalLogin($this->account);
