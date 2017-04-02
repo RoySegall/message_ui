@@ -20,7 +20,7 @@ class MessageNotifyUiTest extends AbstractTestMessageUi {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['message', 'message_ui', 'message_notify_ui', 'views'];
+  public static $modules = ['message', 'message_ui', 'message_notify_ui', 'views', 'field'];
 
   /**
    * {@inheritdoc}
