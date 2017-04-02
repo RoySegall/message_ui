@@ -12,8 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @MessageUiViewsContextualLinks(
- *  id = "message_ui_views_contextual_links",
- *  label = @Translation("The plugin ID."),
+ *  id = "notify",
+ *  label = @Translation("Notify."),
  *  weight = 4
  * )
  */

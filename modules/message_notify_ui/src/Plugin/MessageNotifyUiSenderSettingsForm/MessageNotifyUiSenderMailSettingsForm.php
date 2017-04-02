@@ -63,7 +63,9 @@ class MessageNotifyUiSenderMailSettingsForm extends MessageNotifyUiSenderSetting
       $settings['language override'] = $formState->getValue($formState->getValue('language'));
     }
 
-    $notifier->send($this->getMessage(), $settings, 'email');
+    if ($notifier->send($this->getMessage(), $settings, 'email')) {
+      drupal_set_message(t('The email sent successfully.'));
+    }
   }
 
 }

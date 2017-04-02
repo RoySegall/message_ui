@@ -11,7 +11,7 @@ use Drupal\Core\Entity\EntityTypeManager;
 
 /**
  * @MessageUiViewsContextualLinks(
- *  id = "message_ui_contextual_link_edit_message",
+ *  id = "edit",
  *  label = @Translation("Button the delete a message."),
  *  weight = 1
  * )
