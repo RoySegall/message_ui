@@ -57,7 +57,7 @@ class MessageUIContextualLinks extends FieldPluginBase {
         continue;
       }
 
-      $link['attributes'] = ['class' => [$plugin['id']]];
+//      $link['attributes'] = ['class' => [$plugin['id']]];
 
       $links[$plugin['id']] = $link + ['weight' => $plugin['weight']];
     }
