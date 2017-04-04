@@ -20,7 +20,7 @@ class MessageNotifyUiTest extends AbstractTestMessageUi {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['message', 'message_ui', 'message_notify_ui', 'views', 'field'];
+  public static $modules = ['message', 'message_notify_ui'];
 
   /**
    * {@inheritdoc}
@@ -32,9 +32,6 @@ class MessageNotifyUiTest extends AbstractTestMessageUi {
       'send message through the ui',
       'overview messages',
     ));
-
-    // Load 'authenticated' user role.
-    $this->rid = Role::load(RoleInterface::AUTHENTICATED_ID)->id();
 
     // Create Message template foo.
     $this->createMessageTemplate('foo', 'Dummy test', 'Example text.', array('Dummy message'));
@@ -53,12 +50,6 @@ class MessageNotifyUiTest extends AbstractTestMessageUi {
       'template' => 'foo',
     ]);
     $message->save();
-
-    // Check the contextual link.
-    $this->drupalGet('admin/content/messages');
-    if (!$this->getSession()->getPage()->find('xpath', "//td[contains(@class, 'views-field-message-ui-contextual-links')]//li//a[@class='notify']")) {
-      $this->fail('The notify contextual link was not found on the page');
-    }
 
     // Go to the page of notify page.
     $edit = [
