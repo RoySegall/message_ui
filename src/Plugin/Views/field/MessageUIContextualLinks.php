@@ -72,14 +72,4 @@ class MessageUIContextualLinks extends FieldPluginBase {
     return $row;
   }
 
-  /**
-   * Determine if this field can allow advanced rendering.
-   *
-   * Fields can set this to FALSE if they do not wish to allow
-   * token based rewriting or link-making.
-   */
-  protected function allowAdvancedRender() {
-    return FALSE;
-  }
-
 }
