@@ -20,7 +20,7 @@ abstract class MessageNotifyUiSenderSettingsFormBase extends PluginBase implemen
   /**
    * The form state interface.
    *
-   * @var FormStateInterface
+   * @var \Drupal\Core\Form\FormStateInterface
    */
   protected $formState;
 
@@ -58,7 +58,7 @@ abstract class MessageNotifyUiSenderSettingsFormBase extends PluginBase implemen
   /**
    * Return the form state object.
    *
-   * @return FormStateInterface
+   * @return \Drupal\Core\Form\FormStateInterface
    *   The form state object.
    */
   public function getFormState() {
@@ -68,7 +68,7 @@ abstract class MessageNotifyUiSenderSettingsFormBase extends PluginBase implemen
   /**
    * Set the form state.
    *
-   * @param FormStateInterface $formState
+   * @param \Drupal\Core\Form\FormStateInterface $formState
    *   The form state object.
    *
    * @return $this

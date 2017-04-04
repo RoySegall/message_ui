@@ -22,9 +22,9 @@ function hook_message_ui_view_alter(array &$build, Message $message) {
 /**
  * Implements hook_message_message_ui_access_control().
  *
- * @param Message $message
+ * @param \Drupal\message\Entity\Message $message
  * @param $op
- * @param AccountInterface $account
+ * @param \Drupal\Core\Session\AccountInterface $account
  *
  * @return \Drupal\Core\Access\AccessResultAllowed
  */

@@ -4,7 +4,6 @@ namespace Drupal\message_notify_ui\Plugin\MessageNotifyUiSenderSettingsForm;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\message_notify\MessageNotifier;
-use Drupal\message_notify\Plugin\Notifier\MessageNotifierBase;
 use Drupal\message_notify_ui\MessageNotifyUiSenderSettingsFormBase;
 use Drupal\message_notify_ui\MessageNotifyUiSenderSettingsFormInterface;
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @file
+ */
 
 /**
  * Implements hook_entity_type_alter.
