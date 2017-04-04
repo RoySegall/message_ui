@@ -3,6 +3,8 @@ sudo: false
 
 php: 7.0
 
+env:
+  - DRUPAL_CORE=8.4.x
 
 mysql:
   database: message_ui

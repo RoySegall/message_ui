@@ -62,9 +62,11 @@ class MessageMultipleDeleteForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
     /** @var MessageTemplateInterface $templates */
     $templates = $this->entityTypeManager->getStorage('message_template')->loadMultiple();
     $options = [];
+
     foreach ($templates as $template) {
       $options[$template->id()] = $template->label();
     }
@@ -138,6 +140,7 @@ class MessageMultipleDeleteForm extends FormBase {
       '@start' => reset($mids),
       '@end' => end($mids),
     ]);
+
     \Drupal::entityTypeManager()->getStorage('message')->delete($messages);
   }
 
