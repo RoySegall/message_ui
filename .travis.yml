@@ -57,7 +57,7 @@ before_script:
 script:
   # Testing CS.
   - cd ./modules/message_ui
-  - $COMPOSER_LIB/vendor/bin/phpcs ./modules/message_ui
+  - $COMPOSER_LIB/vendor/bin/phpcs
   - cd -
 
   # Run the PHPUnit tests which also include the kernel tests.
