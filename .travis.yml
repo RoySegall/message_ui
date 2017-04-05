@@ -21,6 +21,9 @@ before_script:
   # Remember the current directory for later use in the Drupal installation.
   - TESTDIR=$(pwd)
 
+  # Get all the composer components.
+  - composer install
+
   # Navigate out of module directory to prevent blown stack by recursive module
   # lookup.
   - cd ..
@@ -30,9 +33,6 @@ before_script:
 
   # Export database variable for kernel tests.
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/message_ui
-
-  # Get all the composer components.
-  - composer install
 
   # Download Drupal 8 core.
   - travis_retry git clone --branch $DRUPAL_CORE --depth 1 https://git.drupal.org/project/drupal.git
