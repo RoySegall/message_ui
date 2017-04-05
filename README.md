@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/RoySegall/message_ui.svg?branch=8.x-1.x)](https://travis-ci.org/RoySegall/message_ui)
+![Build Status](https://travis-ci.org/RoySegall/message_ui.svg?branch=8.x-1.x)
 
 # Message UI
 
