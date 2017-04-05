@@ -6,6 +6,6 @@
   "minimum-stability": "dev",
   "require": {
     "drupal/coder": "^8.2",
-    "drush/drush": "^8.1"
+    "drush/drush": "^9.0@dev"
   }
 }
