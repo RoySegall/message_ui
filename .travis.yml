@@ -39,8 +39,8 @@ before_script:
   - cd drupal
 
   # Get modules
-  - ../vendor/drush/drush/drush dl message
-  - ../vendor/drush/drush/drush dl message_notify
+  - ../../vendor/drush/drush/drush dl message
+  - ../../vendor/drush/drush/drush dl message_notify
 
   # Reference Message UI in the Drupal site.
   - ln -s $TESTDIR modules/message_ui
@@ -56,7 +56,7 @@ before_script:
 
 script:
   # Testing CS.
-  - ../vendor/bin/phpcs
+  - ../../vendor/bin/phpcs
 
   # Run the PHPUnit tests which also include the kernel tests.
   - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
