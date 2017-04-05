@@ -56,8 +56,8 @@ before_script:
 
 script:
   # Run the PHPUnit tests which also include the kernel tests.
-#  - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
+  - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
   - cd ./modules/message_ui
   - composer install
   - ls -al
-  - ./vendor/bin/cs
+  - ./vendor/bin/phpcs
