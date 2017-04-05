@@ -5,7 +5,6 @@
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
   "require": {
-    "drupal/coder": "^8.2",
-    "drush/drush": "^9.0@dev"
+    "drupal/coder": "^8.2"
   }
 }
