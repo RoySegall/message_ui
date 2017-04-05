@@ -27,7 +27,7 @@ before_script:
 
   # Navigate out of module directory to prevent blown stack by recursive module
   # lookup.
-  - cd ..
+  - ls -al
 
   # Create database.
   - mysql -e 'create database message_ui'
