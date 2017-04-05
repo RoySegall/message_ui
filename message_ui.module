@@ -40,6 +40,11 @@ function message_ui_entity_insert(EntityInterface $entity) {
   \Drupal::service('message_ui.field_display_manager')->SetFieldsDisplay($entity->get('bundle'));
 }
 
+/**
+ * Implements hook_entity_base_field_info_alter().
+ *
+ * Extend the message entity type's field by providing display handlers.
+ */
 function message_ui_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
   // Alter the uid and created field to include display settings.
   if ($entity_type->id() != 'message') {
