@@ -38,6 +38,7 @@ before_script:
   # Download Drupal 8 core.
   - travis_retry git clone --branch $DRUPAL_CORE --depth 1 https://git.drupal.org/project/drupal.git
   - cd drupal
+  - composer install
 
   # Get modules
   - $COMPOSER_LIB/vendor/drush/drush/drush dl message message_notify
