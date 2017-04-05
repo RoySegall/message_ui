@@ -59,5 +59,4 @@ script:
   - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
   - cd ./modules/message_ui
   - composer install
-  - ls -al
   - ./vendor/bin/phpcs
