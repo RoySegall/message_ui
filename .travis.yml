@@ -24,6 +24,8 @@ before_script:
   # Get all the composer components.
   - composer install
 
+  - pwd
+
   # Navigate out of module directory to prevent blown stack by recursive module
   # lookup.
   - cd ..
