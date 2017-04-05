@@ -4,7 +4,8 @@ sudo: false
 php: 7.0
 
 env:
-  - DRUPAL_CORE=8.4.x
+  global:
+    - DRUPAL_CORE=8.4.x
   matrix:
     - MODE=cs
     - MODE=functional
