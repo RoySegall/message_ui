@@ -5,6 +5,9 @@ php: 7.0
 
 env:
   - DRUPAL_CORE=8.4.x
+  matrix:
+    - MODE=cs
+    - MODE=functional
 
 mysql:
   database: message_ui
@@ -21,10 +24,6 @@ before_script:
   # Remember the current directory for later use in the Drupal installation.
   - TESTDIR=$(pwd)
 
-  # Get all the composer components.
-  - composer install
-  - COMPOSER_LIB=$(pwd)
-
   # Navigate out of module directory to prevent blown stack by recursive module
   # lookup.
   - cd ..
@@ -35,31 +34,11 @@ before_script:
   # Export database variable for kernel tests.
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/message_ui
 
-  # Download Drupal 8 core.
-  - travis_retry git clone --branch $DRUPAL_CORE --depth 1 https://git.drupal.org/project/drupal.git
-  - cd drupal
-  - composer install
-
-  # Get modules
-  - $COMPOSER_LIB/vendor/drush/drush/drush dl message message_notify
-
-  # Reference Message UI in the Drupal site.
-  - ln -s $TESTDIR modules/message_ui
-
-  # Start a web server on port 8888 in the background.
-  - nohup php -S localhost:8888 > /dev/null 2>&1 &
-
-  # Wait until the web server is responding.
-  - until curl -s localhost:8888; do true; done > /dev/null
-
-  # Export web server URL for browser tests.
-  - export SIMPLETEST_BASE_URL=http://localhost:8888
 
 script:
-  # Testing CS.
-  - cd ./modules/message_ui
-  - $COMPOSER_LIB/vendor/bin/phpcs
-  - cd -
-
-  # Run the PHPUnit tests which also include the kernel tests.
-  - ./vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/message_ui
+  - if [[ $MODE == cs ]]; then
+    bash scripts/travis/cs.sh;
+    fi
+  - if [[ $MODE == functional ]]; then
+    bash scripts/travis/functional.sh;
+    fi
