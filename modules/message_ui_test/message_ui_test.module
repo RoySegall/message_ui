@@ -9,9 +9,8 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\message\MessageInterface;
 
-
 /**
- * Implements hook_message_message_ui_access_control.
+ * Implements hook_message_message_ui_access_control().
  */
 function message_ui_test_message_message_ui_access_control(MessageInterface $message, $op, AccountInterface $account) {
   return AccessResult::allowedIf($message->{$op});

@@ -27,7 +27,7 @@ interface MessageNotifyUiSenderSettingsFormInterface extends PluginInspectionInt
    * @param \Drupal\Core\Form\FormStateInterface $formState
    *   The form state object.
    */
-  public function validate($form, FormStateInterface $formState);
+  public function validate(array $form, FormStateInterface $formState);
 
   /**
    * Implementing logic for sender which relate to the plugin.
@@ -39,8 +39,6 @@ interface MessageNotifyUiSenderSettingsFormInterface extends PluginInspectionInt
    *   The notifier which the plugin take care.
    * @param \Drupal\Core\Form\FormStateInterface $formState
    *   The form state object.
-   *
-   * @return
    */
   public function submit(MessageNotifier $notifier, FormStateInterface $formState);
 

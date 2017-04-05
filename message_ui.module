@@ -41,7 +41,7 @@ function message_ui_entity_insert(EntityInterface $entity) {
 }
 
 /**
- * Implements hook_entity_base_field_info_alter.
+ * Implements hook_entity_base_field_info_alter().
  *
  * Extend the message entity type's field by providing display handlers.
  */
@@ -86,7 +86,7 @@ function message_ui_entity_base_field_info_alter(&$fields, EntityTypeInterface $
 }
 
 /**
- * Implements hook_entity_type_alter.
+ * Implements hook_entity_type_alter().
  *
  * Extend the message entity type by providing form handlers.
  */
@@ -130,7 +130,7 @@ function message_ui_theme() {
  *
  * @see message_add_page()
  */
-function template_preprocess_message_add_list(&$variables) {
+function template_preprocess_message_add_list(array &$variables) {
   $variables['templates'] = [];
   if (!empty($variables['content'])) {
     foreach ($variables['content'] as $template) {
@@ -217,14 +217,14 @@ function message_ui_form_message_system_settings_alter(&$form, FormStateInterfac
 }
 
 /**
- * Form submit handler for admin form message_user_admin_settings.
+ * Submit handler for message_user_admin_settings.
  *
- * Update message_ui configuration on form submit.
- *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   FAPI element.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state object.
  */
-function message_ui_form_message_system_settings_submit($form, FormStateInterface $form_state) {
+function message_ui_form_message_system_settings_submit(array $form, FormStateInterface $form_state) {
 
   $form_values = $form_state->getValues();
 
@@ -243,18 +243,14 @@ function message_ui_form_message_system_settings_submit($form, FormStateInterfac
  *
  * Submit handler for updating the arguments number.
  *
- * When a message template is been edited, there could be a change in the arguments
- * of the message - added or removed.
+ * When a message template is been edited, there could be a change in the
+ * arguments of the message - added or removed.
  * If this has been defined, we need to update the arguments of the other
  * messages. This will be achieved by in two steps:
  * 1. Load an instance of the message from the same template
  * 2. Count the number of the arguments and if there is a difference between the
  *    number of the arguments from the old message to the current one - create
  *    a batch or a queue and update the messages.
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *
- * @return bool|null
  */
 function message_ui_entity_update(EntityInterface $entity) {
   $type = $entity->getEntityType()->id();
