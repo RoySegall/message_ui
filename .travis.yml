@@ -38,8 +38,8 @@ before_script:
 
 script:
   - if [[ $MODE == cs ]]; then
-    bash ../scripts/travis/cs.sh;
+    bash scripts/travis/cs.sh;
     fi
   - if [[ $MODE == functional ]]; then
-    bash ../scripts/travis/functional.sh;
+    bash scripts/travis/functional.sh;
     fi
