@@ -46,16 +46,16 @@ class MessagePermissions {
     $template_params = ['%template_name' => $template->label()];
 
     return [
-      'view $template_id message' => [
+      'view ' . $template->label() . ' message' => [
         'title' => $this->t('%template_name: View a message instance', $template_params),
       ],
-      'edit $template_id message' => [
+      'edit ' . $template->label() . ' message' => [
         'title' => $this->t('%template_name: Edit a message instance', $template_params),
       ],
-      'create $template_id message' => [
+      'create ' . $template->label() . ' message' => [
         'title' => $this->t('%template_name: Create a new message instance', $template_params),
       ],
-      'delete $template_id message' => [
+      'delete ' . $template->label() . ' message' => [
         'title' => $this->t('%template_name: Delete a message instance', $template_params),
       ],
     ];
