@@ -44,18 +44,19 @@ class MessagePermissions {
    */
   protected function buildPermissions(MessageTemplate $template) {
     $template_params = ['%template_name' => $template->label()];
+    $template_id = $template->id();
 
     return [
-      'view $template_id message' => [
+      "view $template_id message" => [
         'title' => $this->t('%template_name: View a message instance', $template_params),
       ],
-      'edit $template_id message' => [
+      "edit $template_id message" => [
         'title' => $this->t('%template_name: Edit a message instance', $template_params),
       ],
-      'create $template_id message' => [
+      "create $template_id message" => [
         'title' => $this->t('%template_name: Create a new message instance', $template_params),
       ],
-      'delete $template_id message' => [
+      "delete $template_id message" => [
         'title' => $this->t('%template_name: Delete a message instance', $template_params),
       ],
     ];
