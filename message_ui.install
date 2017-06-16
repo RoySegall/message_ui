@@ -19,19 +19,22 @@ function message_ui_install() {
   }
 
   // Adding the contextual links operations handler.
+  /* @var $entity \Drupal\views\Entity\View */
   $entity = \Drupal::entityTypeManager()->getStorage('view')->load('message');
-  $display = $entity->get('display');
+  if (!\Drupal::service('config.installer')->isSyncing()) {
+    $display = $entity->get('display');
 
-  $display['default']['display_options']['fields']['message_ui_contextual_links'] = [
-    'id' => 'message_ui_contextual_links',
-    'table' => 'message',
-    'field' => 'message_ui_contextual_links',
-    'entity_type' => 'message',
-    'label' => 'Operations',
-  ];
+    $display['default']['display_options']['fields']['message_ui_contextual_links'] = [
+      'id' => 'message_ui_contextual_links',
+      'table' => 'message',
+      'field' => 'message_ui_contextual_links',
+      'entity_type' => 'message',
+      'label' => 'Operations',
+    ];
 
-  $entity->set('display', $display);
-  $entity->save();
+    $entity->set('display', $display);
+    $entity->save();
+  }
 }
 
 /**
