@@ -163,7 +163,7 @@ class MessageUiPermissionsTest extends AbstractTestMessageUi {
 
     // Check dynamic template.
     $class = new MessagePermissions();
-    $this->assertEquals(count($class->messageTemplatePermissions()) * 4, count($this->container->get('entity_type.manager')->getStorage('message_template')->loadMultiple()));
+    $this->assertEquals(count($class->messageTemplatePermissions()), count($this->container->get('entity_type.manager')->getStorage('message_template')->loadMultiple()) * 4);
   }
 
 }
