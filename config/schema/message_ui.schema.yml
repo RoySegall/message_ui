@@ -40,3 +40,11 @@ views.field.message_ui_contextual_links:
     text:
       type: label
       label: 'Text to display'
+
+message.template.*.third_party.message_ui:
+  type: mapping
+  label: 'Message UI settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'UI is provided for this template'

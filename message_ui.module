@@ -23,24 +23,6 @@ const MESSAGE_UI_ALLOW = TRUE;
 const MESSAGE_UI_DENY = TRUE;
 
 /**
- * Implements hook_entity_insert().
- */
-function message_ui_entity_insert(EntityInterface $entity) {
-
-  if ($entity->getEntityTypeId() != 'field_config') {
-    return;
-  }
-
-  if ($entity->get('entity_type') != 'message') {
-    return;
-  }
-
-  // A new field was attached to the message template. We will make sure it will
-  // appear in message form.
-  \Drupal::service('message_ui.field_display_manager')->SetFieldsDisplay($entity->get('bundle'));
-}
-
-/**
  * Implements hook_entity_base_field_info_alter().
  *
  * Extend the message entity type's field by providing display handlers.
@@ -61,10 +43,9 @@ function message_ui_entity_base_field_info_alter(&$fields, EntityTypeInterface $
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
         'weight' => 5,
-        '#group' => 'advanced',
         'settings' => [
           'match_operator' => 'CONTAINS',
-          'size' => '60',
+          'size' => 60,
           'placeholder' => '',
         ],
       ])
@@ -381,4 +362,23 @@ function message_ui_entity_load(array &$entities, $entity_type_id) {
     $saved = TRUE;
     $entity->save();
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function message_ui_form_message_template_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\message\MessageTemplateInterface $template */
+  $template = $form_state->getFormObject()->getEntity();
+  $form['third_party_settings'] = [
+    '#tree' => TRUE,
+    'message_ui' => [
+      'enabled' => [
+        '#type' => 'checkbox',
+        '#title' => t('Provide UI for this template'),
+        '#description' => t('Check this in order to provide user interface for this message template.'),
+        '#default_value' => $template->getThirdPartySetting('message_ui', 'enabled', FALSE),
+      ],
+    ],
+  ];
 }

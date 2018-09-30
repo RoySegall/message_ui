@@ -23,6 +23,13 @@ class MessageUiPermissionsTest extends AbstractTestMessageUi {
   protected $accessHandler;
 
   /**
+   * Testing message template.
+   *
+   * @var \Drupal\message\MessageTemplateInterface
+   */
+  protected $template;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -36,7 +43,7 @@ class MessageUiPermissionsTest extends AbstractTestMessageUi {
     $this->rid = Role::load(RoleInterface::AUTHENTICATED_ID)->id();
 
     // Create Message template foo.
-    $this->createMessageTemplate('foo', 'Dummy test', 'Example text.', ['Dummy message']);
+    $this->template = $this->createMessageTemplate('foo', 'Dummy test', 'Example text.', ['Dummy message']);
   }
 
   /**
@@ -52,6 +59,28 @@ class MessageUiPermissionsTest extends AbstractTestMessageUi {
     // Verify the user can't create the message.
     $this->drupalGet($create_url);
 
+    // Check that the creation form doesn't exist for template with disabled UI.
+    $this->assertSession()->statusCodeEquals(404);
+
+    // Create a message using the API.
+    /** @var \Drupal\message\MessageInterface $message */
+    $message = Message::create(['template' => 'foo']);
+    $message->save();
+
+    // Check that a canonical path to the message doesn't exist.
+    $this->drupalGet($message->toUrl());
+    $this->assertSession()->statusCodeEquals(404);
+    // Check that an form edit path to the message doesn't exist.
+    $this->drupalGet($message->toUrl('edit-form'));
+    $this->assertSession()->statusCodeEquals(404);
+    // Check that a form delete path to the message doesn't exist.
+    $this->drupalGet($message->toUrl('delete-form'));
+    $this->assertSession()->statusCodeEquals(404);
+
+    // Enable the UI for the testing template and reload the page.
+    $this->template->setThirdPartySetting('message_ui', 'enabled', TRUE)->save();
+    $this->getSession()->reload();
+
     // The user can't create a message.
     $this->assertSession()->statusCodeEquals(403);
 
@@ -66,7 +95,7 @@ class MessageUiPermissionsTest extends AbstractTestMessageUi {
     $this->drupalPostForm(NULL, [], t('Create'));
 
     // Create the message url.
-    $msg_url = '/message/1';
+    $msg_url = '/message/2';
 
     // Verify the user now can see the text.
     $this->grantMessageUiPermission('view');
