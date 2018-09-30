@@ -5,12 +5,14 @@
  * Contains Drupal\message_ui\message_ui.module.
  */
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\message\Entity\Message;
-use Drupal\message_ui\Plugin\QueueWorker\MessageArgumentsWorker;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\message\Entity\Message;
+use Drupal\message\MessageTemplateInterface;
+use Drupal\message_ui\MessageUIHelper;
+use Drupal\message_ui\Plugin\QueueWorker\MessageArgumentsWorker;
 
 /**
  * Grant permission for the operation upon message.
@@ -381,4 +383,11 @@ function message_ui_form_message_template_edit_form_alter(&$form, FormStateInter
       ],
     ],
   ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function message_ui_message_template_insert(MessageTemplateInterface $template) {
+  MessageUIHelper::addEntityFormDisplay($template->id());
 }
