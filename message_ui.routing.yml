@@ -31,6 +31,7 @@ message_ui.add:
     _admin_route: TRUE
     parameters:
       message_template:
+        type: entity:message_template
         with_config_overrides: FALSE
 
 entity.message.edit_form:
