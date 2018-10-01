@@ -8,4 +8,4 @@ services:
     parent: paramconverter.entity
     tags:
       - name: paramconverter
-        priority: 10
+        priority: 5
