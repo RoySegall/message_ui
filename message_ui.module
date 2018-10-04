@@ -5,12 +5,12 @@
  * Contains Drupal\message_ui\message_ui.module.
  */
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\message\Entity\Message;
 use Drupal\message_ui\Plugin\QueueWorker\MessageArgumentsWorker;
-use Drupal\Core\Url;
 
 /**
  * Grant permission for the operation upon message.
@@ -21,24 +21,6 @@ const MESSAGE_UI_ALLOW = TRUE;
  * Deny permission for the operation upon message.
  */
 const MESSAGE_UI_DENY = TRUE;
-
-/**
- * Implements hook_entity_insert().
- */
-function message_ui_entity_insert(EntityInterface $entity) {
-
-  if ($entity->getEntityTypeId() != 'field_config') {
-    return;
-  }
-
-  if ($entity->get('entity_type') != 'message') {
-    return;
-  }
-
-  // A new field was attached to the message template. We will make sure it will
-  // appear in message form.
-  \Drupal::service('message_ui.field_display_manager')->SetFieldsDisplay($entity->get('bundle'));
-}
 
 /**
  * Implements hook_entity_base_field_info_alter().
@@ -61,10 +43,9 @@ function message_ui_entity_base_field_info_alter(&$fields, EntityTypeInterface $
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
         'weight' => 5,
-        '#group' => 'advanced',
         'settings' => [
           'match_operator' => 'CONTAINS',
-          'size' => '60',
+          'size' => 60,
           'placeholder' => '',
         ],
       ])
