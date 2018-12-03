@@ -179,9 +179,10 @@ class MessageForm extends ContentEntityForm {
     }
 
     // Set the timestamp to custom value or request time.
-    $created = $form_state->getValue('date');
-    if ($created) {
-      $message->setCreatedTime(strtotime($created));
+    $created = $form_state->getValue('created');
+    if ($created && isset($created[0]['value'])) {
+      $date = $created[0]['value']->__toString();
+      $message->setCreatedTime(strtotime($date));
     }
     else {
       $message->setCreatedTime(REQUEST_TIME);
